@@ -4,6 +4,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import SearchFilterSort from './SearchFilterSort';
 import CardSidebar from './CardSidebar';
 import './BookCatalog.css';
+import { API_BASE_URL } from '../api.js';
 
 const BookCatalog = () => {
   const [products, setProducts] = useState([]);
