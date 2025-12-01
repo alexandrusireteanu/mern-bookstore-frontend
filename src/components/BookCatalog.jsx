@@ -12,7 +12,7 @@ const BookCatalog = () => {
   const [error, setError] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   // Încărcarea produselor la montarea componentei
   useEffect(() => {
@@ -29,11 +29,11 @@ const BookCatalog = () => {
       const isRecent = (Date.now() - parseInt(timestamp)) < 300000; // 5 minute
       if (isRecent) {
         try {
-          const response = await fetch(`http://localhost:3000/api/check-payment-status/${sessionId}`);
+          const response = await fetch(`${API_BASE_URL}/api/check-payment-status/${sessionId}`);
           if (response.ok) {
             const data = await response.json();
             if (data.paymentStatus === 'paid') {
-              await fetch('http://localhost:3000/api/clear-cart', { method: 'POST' });
+              await fetch(`${API_BASE_URL}/api/cartclear-cart`, { method: 'POST' });
               fetchCartTotal();
               localStorage.removeItem('lastCheckoutSession');
               localStorage.removeItem('checkoutTimestamp');
@@ -55,7 +55,7 @@ const BookCatalog = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/products');
+      const response = await axios.get(`${API_BASE_URL}/api/products`);
       console.log('Raspuns API:', response); 
       console.log('Date raspuns:', response.data);
       if (response.data.success) {
@@ -72,7 +72,7 @@ const BookCatalog = () => {
 
   const fetchCartTotal = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/cart');
+      const response = await axios.get(`${API_BASE_URL}/api/cart`);
       if (response.data.success) {
         setCartTotal(response.data.cart.totalItems);
       }
@@ -83,7 +83,7 @@ const BookCatalog = () => {
 
   const addToCart = async (productId) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/cart', {
+      const response = await axios.post(`${API_BASE_URL}/api/cart`, {
         productId,
         quantity: 1
       });
