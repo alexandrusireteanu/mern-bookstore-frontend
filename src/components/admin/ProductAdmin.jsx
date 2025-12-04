@@ -190,7 +190,7 @@ const ProductAdmin = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`${API_URL}/api/admin/products/${productId}`, {
+      const response = await fetch(`${API_URL}/api/admin/products/${productId}?permanent=true`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
